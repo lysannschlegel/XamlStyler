@@ -22,6 +22,7 @@ namespace Xavalon.XamlStyler.UnitTests
             this.TestConfig(stylerOptions, @"TestConfigurations/SerializedDefault.json");
 
             Assert.IsTrue(stylerOptions.UseVisualStudioIndentWithTabs);
+            Assert.AreEqual(NewLineStyle.System, stylerOptions.NewLineStyle);
         }
 
         [Test]
@@ -60,6 +61,13 @@ namespace Xavalon.XamlStyler.UnitTests
 
             Assert.IsFalse(stylerOptions.UseVisualStudioIndentWithTabs); // IndentWithTabs is true
             Assert.IsFalse(stylerOptions.UseVisualStudioIndentSize); // IndentSize is set
+        }
+
+        [Test]
+        public void TestConfigurationStringNewLineStyle()
+        {
+            var stylerOptions = new StylerOptions(config: Tests.GetConfiguration(@"TestConfigurations/NewLineStyleString.json"));
+            Assert.AreEqual(NewLineStyle.Unix, stylerOptions.NewLineStyle);
         }
 
         private void TestConfig(StylerOptions stylerOptions, string expectedConfiguration)

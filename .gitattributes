@@ -4,9 +4,12 @@
 * text=auto
 
 ###############################################################################
-# Preserve line endings in gradle scripts
+# Preserve line endings:
 ###############################################################################
+# in gradle scripts
 gradlew* -text diff
+# Some test cases rely on specific line endings, so do not touch them
+/src/XamlStyler.UnitTests/TestFiles/TestNewLineStyle* -text diff
 
 ###############################################################################
 # Set default behavior for command prompt diff.

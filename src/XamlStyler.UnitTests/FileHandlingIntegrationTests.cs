@@ -490,6 +490,36 @@ namespace Xavalon.XamlStyler.UnitTests
             FileHandlingIntegrationTests.DoTest(stylerOptions);
         }
 
+        [Test]
+        public void TestNewLineStyleSystem()
+        {
+            var stylerOptions = new StylerOptions(
+                config: FileHandlingIntegrationTests.GetConfiguration(@"TestConfigurations/LegacyTestSettings.json"))
+            {
+                NewLineStyle = NewLineStyle.System
+            };
+
+            // write the expected file based on the current system line ending
+            var testFileResultBaseName = "TestFiles/TestNewLineStyleSystem";
+            string expectedTemplate = File.ReadAllText($"{testFileResultBaseName}.expected.template");
+            expectedTemplate = expectedTemplate.Replace("NEWLINE", Environment.NewLine);
+            File.WriteAllText($"{testFileResultBaseName}.expected", expectedTemplate, Encoding.UTF8);
+
+            FileHandlingIntegrationTests.DoTest(stylerOptions);
+        }
+        [TestCase(NewLineStyle.Unix)]
+        [TestCase(NewLineStyle.Windows)]
+        public void TestNewLineStyleOverride(NewLineStyle newLineStyle)
+        {
+            var stylerOptions = new StylerOptions(
+                config: FileHandlingIntegrationTests.GetConfiguration(@"TestConfigurations/LegacyTestSettings.json"))
+            {
+                NewLineStyle = newLineStyle
+            };
+
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, newLineStyle);
+        }
+
         private static void DoTest(
             StylerOptions stylerOptions,
             [System.Runtime.CompilerServices.CallerMemberName] string callerMemberName = "")
