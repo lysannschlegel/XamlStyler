@@ -19,11 +19,26 @@ namespace Xavalon.XamlStyler.Console
 
         protected abstract StylerService GetStylerService(CommandLineOptions options, Logger logger, StylerService defaultStyler);
 
-        protected abstract StreamReader CreateReader();
+        protected abstract StreamReader CreateReader(Logger logger);
 
         protected abstract StreamWriter CreateWriter(Encoding encoding);
 
         public bool TryProcess(CommandLineOptions options, Logger logger, StylerService defaultStyler)
+        {
+            try
+            {
+                return Process(options, logger, defaultStyler);
+            }
+            catch (Exception e)
+            {
+                logger.Log("Skipping... Error formatting XAML. Increase log level for more details.");
+                logger.Log($"Exception: {e.Message}", LogLevel.Verbose);
+                logger.Log($"StackTrace: {e.StackTrace}", LogLevel.Debug);
+                return false;
+            }
+        }
+
+        private bool Process(CommandLineOptions options, Logger logger, StylerService defaultStyler)
         {
             logger.Log($"{(options.IsPassive ? "Checking" : "Processing")}: {this.FileName}");
 
@@ -32,77 +47,84 @@ namespace Xavalon.XamlStyler.Console
                 return false;
             }
 
-            logger.Log($"Full Path: {this.FullPath}", LogLevel.Debug);
+            var (originalContent, encoding) = ReadOriginalContent(logger);
 
             StylerService styler = this.GetStylerService(options, logger, defaultStyler);
-
-            string originalContent = null;
-            Encoding encoding = Encoding.UTF8; // Visual Studio by default uses UTF8
-            using (var reader = this.CreateReader())
-            {
-                originalContent = reader.ReadToEnd();
-                encoding = reader.CurrentEncoding;
-                logger.Log($"\nOriginal Content:\n\n{originalContent}\n", LogLevel.Insanity);
-            }
-
             string formattedOutput = styler.StyleDocument(originalContent);
 
             if (options.IsPassive)
             {
-                if (formattedOutput.Equals(originalContent, StringComparison.Ordinal))
-                {
-                    logger.Log($"  PASS");
-                }
-                else
-                {
-                    // Fail fast in passive mode when detecting a file where formatting rules were not followed.
-                    logger.Log($"  FAIL");
-                    return false;
-                }
-            }
-            else if (options.WriteToStdout)
-            {
-                logger.Log($"\nFormatted Output:\n\n{formattedOutput}\n", LogLevel.Insanity);
-
-                var prevEncoding = System.Console.OutputEncoding;
-                try
-                {
-                    System.Console.OutputEncoding = encoding;
-                    System.Console.Write(encoding.GetString(encoding.GetPreamble()));
-                    System.Console.Write(formattedOutput);
-                }
-                finally
-                {
-                    System.Console.OutputEncoding = prevEncoding;
-                }
+                return ReportFormattedStatus(originalContent, formattedOutput, logger);
             }
             else
             {
                 logger.Log($"\nFormatted Output:\n\n{formattedOutput}\n", LogLevel.Insanity);
-
-                // Only modify the file on disk if the content would be changed
-                if (!formattedOutput.Equals(originalContent, StringComparison.Ordinal))
+                if (options.WriteToStdout)
                 {
-                    try
-                    {
-                        using var writer = this.CreateWriter(encoding);
-                        writer.Write(formattedOutput);
-                        logger.Log($"Finished Processing: {this.FileName}", LogLevel.Verbose);
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Log("Skipping... Error formatting XAML. Increase log level for more details.");
-                        logger.Log($"Exception: {e.Message}", LogLevel.Verbose);
-                        logger.Log($"StackTrace: {e.StackTrace}", LogLevel.Debug);
-                    }
+                    WriteFormattedToStdout(formattedOutput, encoding);
                 }
                 else
                 {
-                    logger.Log($"Finished Processing (unmodified): {this.FileName}", LogLevel.Verbose);
+                    ApplyFormattingToFile(originalContent, formattedOutput, encoding, logger);
                 }
+                return true;
             }
+        }
 
-            return true;
+        private (string, Encoding) ReadOriginalContent(Logger logger)
+        {
+            using (var reader = this.CreateReader(logger))
+            {
+                string originalContent = reader.ReadToEnd();
+                Encoding encoding = reader.CurrentEncoding;
+                logger.Log($"\nOriginal Content:\n\n{originalContent}\n", LogLevel.Insanity);
+                return (originalContent, encoding);
+            }
+        }
+
+        private bool ReportFormattedStatus(string originalContent, string formattedOutput, Logger logger)
+        {
+            if (formattedOutput.Equals(originalContent, StringComparison.Ordinal))
+            {
+                logger.Log($"  PASS");
+                return true;
+            }
+            else
+            {
+                logger.Log($"  FAIL");
+                // Fail fast in passive mode when detecting a file where formatting rules were not followed.
+                return false;
+            }
+        }
+
+        private void WriteFormattedToStdout(string formattedOutput, Encoding encoding)
+        {
+            var prevEncoding = System.Console.OutputEncoding;
+            try
+            {
+                System.Console.OutputEncoding = encoding;
+                System.Console.Out.Write(encoding.GetString(encoding.GetPreamble()));
+                System.Console.Out.Write(formattedOutput);
+            }
+            finally
+            {
+                System.Console.OutputEncoding = prevEncoding;
+            }
+        }
+
+        private void ApplyFormattingToFile(string originalContent, string formattedOutput, Encoding encoding, Logger logger)
+        {
+            // Only modify the file on disk if the content would be changed
+            if (!formattedOutput.Equals(originalContent, StringComparison.Ordinal))
+            {
+                using var writer = this.CreateWriter(encoding);
+                writer.Write(formattedOutput);
+                logger.Log($"Finished Processing: {this.FileName}", LogLevel.Verbose);
+            }
+            else
+            {
+                logger.Log($"Finished Processing (unmodified): {this.FileName}", LogLevel.Verbose);
+            }
         }
     }
 
@@ -143,8 +165,9 @@ namespace Xavalon.XamlStyler.Console
             });
         }
 
-        protected override StreamReader CreateReader()
+        protected override StreamReader CreateReader(Logger logger)
         {
+            logger.Log($"Full Path: {this.FullPath}", LogLevel.Debug);
             return new StreamReader(this.FullPath);
         }
 
@@ -170,7 +193,7 @@ namespace Xavalon.XamlStyler.Console
             return defaultStyler;
         }
 
-        protected override StreamReader CreateReader()
+        protected override StreamReader CreateReader(Logger logger)
         {
             var stream = System.Console.OpenStandardInput();
             return new StreamReader(stream);
