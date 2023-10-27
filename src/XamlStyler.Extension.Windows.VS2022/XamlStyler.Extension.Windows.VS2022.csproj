@@ -27,7 +27,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xavalon.XamlStyler.Extension.Windows</RootNamespace>
-    <AssemblyName>XamlStyler.Extension.Windows.VS2022</AssemblyName>
+    <AssemblyName>XamlStyler.Extension.Windows.VS2022.Pdx</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>

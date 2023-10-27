@@ -75,6 +75,7 @@ namespace Xavalon.XamlStyler.Extension.Rider
             stylerOptions.ThicknessAttributes = settings.GetValue((XamlStylerSettings s) => s.ThicknessAttributes);
             stylerOptions.FormatOnSave = settings.GetValue((XamlStylerSettings s) => s.FormatOnSave);
             stylerOptions.CommentSpaces = settings.GetValue((XamlStylerSettings s) => s.CommentSpaces);
+            stylerOptions.NewLineStyle = settings.GetValue((XamlStylerSettings s) => s.NewLineStyle);
             stylerOptions.ConfigPath = settings.GetValue((XamlStylerSettings s) => s.ConfigPath)?.FullPath;
             stylerOptions.SearchToDriveRoot = settings.GetValue((XamlStylerSettings s) => s.SearchToDriveRoot);
             stylerOptions.SuppressProcessing = settings.GetValue((XamlStylerSettings s) => s.SuppressProcessing);

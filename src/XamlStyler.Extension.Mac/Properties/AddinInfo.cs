@@ -3,7 +3,7 @@ using Mono.Addins.Description;
 
 [assembly: Addin("XamlStyler", Namespace = "Xavalon", Version = "2.0.1")]
 
-[assembly: AddinName("XAML Styler")]
+[assembly: AddinName("XAML Styler (PDX)")]
 [assembly: AddinCategory("IDE extensions")]
 [assembly: AddinDescription("XAML Styler is a visual studio extension that formats XAML source code based on a set of styling rules. This tool can help you/your team maintain a better XAML coding style as well as a much better XAML readability.")]
 [assembly: AddinAuthor("Xavalon")]

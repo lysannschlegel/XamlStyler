@@ -27,7 +27,7 @@ namespace Xavalon.XamlStyler.UnitTests
                 PutEndingBracketOnNewLine = true
             };
 
-            this.DoTestCase(stylerOptions, attributeIndentation);
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, attributeIndentation);
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Xavalon.XamlStyler.UnitTests
                 CommentSpaces = testNumber,
             };
 
-            this.DoTestCase(stylerOptions, testNumber);
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, testNumber);
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace Xavalon.XamlStyler.UnitTests
                 AttributeIndentationStyle = AttributeIndentationStyle.Mixed,
             };
 
-            this.DoTestCase(stylerOptions, $"{tabSize}_{(indentWithTabs ? "tabs" : "spaces")}");
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, $"{tabSize}_{(indentWithTabs ? "tabs" : "spaces")}");
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace Xavalon.XamlStyler.UnitTests
                 ReorderSetters = reorderSettersBy,
             };
 
-            this.DoTestCase(stylerOptions, reorderSettersBy);
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, reorderSettersBy);
         }
 
         [TestCase(1, true)]
@@ -350,7 +350,7 @@ namespace Xavalon.XamlStyler.UnitTests
                 SpaceBeforeClosingSlash = spaceBeforeClosingSlash
             };
 
-            this.DoTestCase(stylerOptions, testNumber);
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, testNumber);
         }
 
         [Test]
@@ -376,7 +376,7 @@ namespace Xavalon.XamlStyler.UnitTests
                 ThicknessStyle = thicknessStyle
             };
 
-            this.DoTestCase(stylerOptions, thicknessStyle);
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, thicknessStyle);
         }
 
         [TestCase(1, LineBreakRule.Default)]
@@ -393,7 +393,7 @@ namespace Xavalon.XamlStyler.UnitTests
                 RootElementLineBreakRule = lineBreakRule,
             };
 
-            this.DoTestCase(stylerOptions, testNumber);
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, testNumber);
         }
 
         [Test]
@@ -490,6 +490,36 @@ namespace Xavalon.XamlStyler.UnitTests
             FileHandlingIntegrationTests.DoTest(stylerOptions);
         }
 
+        [Test]
+        public void TestNewLineStyleSystem()
+        {
+            var stylerOptions = new StylerOptions(
+                config: FileHandlingIntegrationTests.GetConfiguration(@"TestConfigurations/LegacyTestSettings.json"))
+            {
+                NewLineStyle = NewLineStyle.System
+            };
+
+            // write the expected file based on the current system line ending
+            var testFileResultBaseName = "TestFiles/TestNewLineStyleSystem";
+            string expectedTemplate = File.ReadAllText($"{testFileResultBaseName}.expected.template");
+            expectedTemplate = expectedTemplate.Replace("NEWLINE", Environment.NewLine);
+            File.WriteAllText($"{testFileResultBaseName}.expected", expectedTemplate, Encoding.UTF8);
+
+            FileHandlingIntegrationTests.DoTest(stylerOptions);
+        }
+        [TestCase(NewLineStyle.Unix)]
+        [TestCase(NewLineStyle.Windows)]
+        public void TestNewLineStyleOverride(NewLineStyle newLineStyle)
+        {
+            var stylerOptions = new StylerOptions(
+                config: FileHandlingIntegrationTests.GetConfiguration(@"TestConfigurations/LegacyTestSettings.json"))
+            {
+                NewLineStyle = newLineStyle
+            };
+
+            FileHandlingIntegrationTests.DoTestCase(stylerOptions, newLineStyle);
+        }
+
         private static void DoTest(
             StylerOptions stylerOptions,
             [System.Runtime.CompilerServices.CallerMemberName] string callerMemberName = "")
@@ -497,7 +527,7 @@ namespace Xavalon.XamlStyler.UnitTests
             FileHandlingIntegrationTests.DoTest(stylerOptions, Path.Combine("TestFiles", callerMemberName), null);
         }
 
-        private void DoTestCase<T>(
+        private static void DoTestCase<T>(
             StylerOptions stylerOptions,
             T testIdentifier,
             [System.Runtime.CompilerServices.CallerMemberName] string callerMemberName = "")

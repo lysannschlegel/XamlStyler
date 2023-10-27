@@ -123,5 +123,8 @@ namespace Xavalon.XamlStyler.Console
 
         [Option("comment-spaces", HelpText = "Override: comment spaces.")]
         public int? CommentSpaces { get; set; }
+
+        [Option("newline-style", HelpText = "Override: line ending style")]
+        public NewLineStyle? NewLineStyle { get; set; }
     }
 }

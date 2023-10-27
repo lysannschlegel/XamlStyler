@@ -55,4 +55,4 @@ jobs:
     displayName: 'Publish NuGet Package Artifact'
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
-      artifactName: 'LSFork.XamlStyler.Console'
+      artifactName: 'XamlStyler.Console'

@@ -288,6 +288,14 @@ namespace Xavalon.XamlStyler.Options
         [DefaultValue(2)]
         public int CommentSpaces { get; set; }
 
+        [Category("Misc")]
+        [DisplayName("Line Ending Style")]
+        [JsonProperty("NewLineStyle", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [Description("Determines the line ending sequence.\r\n\r\nDefault Value: Use system default")]
+        [DefaultValue(NewLineStyle.System)]
+        public NewLineStyle NewLineStyle { get; set; }
+
         // Configuration
 
         [Category("XAML Styler Configuration")]

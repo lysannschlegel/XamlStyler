@@ -161,7 +161,10 @@ namespace Xavalon.XamlStyler
             {
                 using (XmlReader xmlReader = XmlReader.Create(sourceReader))
                 {
-                    var elementProcessContext = new ElementProcessContext();
+                    var elementProcessContext = new ElementProcessContext()
+                    {
+                        NewLine = GetNewLineString()
+                    };
 
                     while (xmlReader.Read())
                     {
@@ -179,6 +182,22 @@ namespace Xavalon.XamlStyler
             }
 
             return output.ToString();
+        }
+
+        public string GetNewLineString()
+        {
+            return GetNewLineString(this.options.NewLineStyle);
+        }
+
+        private string GetNewLineString(NewLineStyle newLineStyle)
+        {
+            switch(newLineStyle)
+            {
+                case NewLineStyle.System: return Environment.NewLine;
+                case NewLineStyle.Unix: return "\n";
+                case NewLineStyle.Windows: return "\r\n";
+            }
+            throw new InvalidOperationException("Unexpected NewLineStyle");
         }
     }
 }

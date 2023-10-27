@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>LSFork.XamlStyler.Console</PackageId>
+    <PackageId>XamlStyler.Console.Pdx</PackageId>
     <PackageVersion>3.1.0.0</PackageVersion>
-    <Authors>Xavalon, Lysann Schlegel</Authors>
-    <Title>XAML Styler Console, Fork by Lysann Schlegel</Title>
+    <Authors>Xavalon</Authors>
+    <Title>XAML Styler Console</Title>
     <Description>The power of XAML Styler wrapped up in a small executable that can be integrated into build scripts, git commit templates, and more. This package is built on top of the same styling engine that powers the Visual Studio plugin, and can be configured by specifying an external configuration.</Description>
-    <Copyright>Copyright © Xavalon 2020, Lysann Schlegel 2023</Copyright>
+    <Copyright>Copyright © Xavalon 2020</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/lysannschlegel/XamlStyler</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Xavalon/XamlStyler</PackageProjectUrl>
     <PackageIcon>icon.jpg</PackageIcon>
     <PackageTags>beautifier, beautify, cleaning, cleanup, code, extension, format, formatter, formatting, pretty, style, styler, tool, uwp, vsix, wpf, xamarin, xaml</PackageTags>
-    <RepositoryUrl>https://github.com/lysannschlegel/XamlStyler</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Xavalon/XamlStyler</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <RootNamespace>Xavalon.XamlStyler.Console</RootNamespace>
-    <AssemblyName>xstyler</AssemblyName>
+    <AssemblyName>xstyler.pdx</AssemblyName>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>xstyler</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>

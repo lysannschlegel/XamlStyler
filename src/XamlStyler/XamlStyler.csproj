@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Xavalon.XamlStyler</RootNamespace>
+    <AssemblyName>XamlStyler.Pdx</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <Copyright>Copyright © Xavalon 2020</Copyright>

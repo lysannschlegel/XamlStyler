@@ -39,6 +39,7 @@
   "FormatOnSave": true,
   "SaveAndCloseOnFormat": true,
   "CommentPadding": 2,
+  "NewLineStyle": "System",
   "SearchToDriveRoot": true,
   "IgnoreDesignTimeReferencePrefix": false
 }

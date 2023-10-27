@@ -1,6 +1,6 @@
 <idea-plugin url="https://github.com/Xavalon/XamlStyler">
   <name>XAML Styler</name>
-  <id>xamlstyler.rider</id>
+  <id>xamlstyler.rider.pdx</id>
   <vendor url="https://github.com/Xavalon">Xavalon</vendor>
   <category>Formatting</category>
   <version>_PLACEHOLDER_</version>

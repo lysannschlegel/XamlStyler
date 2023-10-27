@@ -132,6 +132,7 @@ namespace Xavalon.XamlStyler.Extension.Rider.Options
             // Misc
             AddHeader("Misc");
             AddSpinner((XamlStylerSettings x) => x.CommentSpaces, "Comment padding:");
+            AddComboEnum((XamlStylerSettings x) => x.NewLineStyle, "Line ending style:");
             
             // Configuration
             AddHeader("Configuration");

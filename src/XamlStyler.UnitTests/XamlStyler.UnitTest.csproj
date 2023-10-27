@@ -62,6 +62,9 @@
   <None Update="TestConfigurations\LegacyTestSettings.json">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
+  <None Update="TestConfigurations\NewLineStyleString.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
   <None Update="TestConfigurations\SerializedDefault.json">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
@@ -234,6 +237,21 @@
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
   <None Update="TestFiles\TestNestedPropertiesAndChildrenHandling.testxaml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="TestFiles\TestNewLineStyleOverride.testxaml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="TestFiles\TestNewLineStyleOverride_Unix.expected">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="TestFiles\TestNewLineStyleOverride_Windows.expected">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="TestFiles\TestNewLineStyleSystem.expected.template">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="TestFiles\TestNewLineStyleSystem.testxaml">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
   <None Update="TestFiles\TestNoContentElementHandling.expected">

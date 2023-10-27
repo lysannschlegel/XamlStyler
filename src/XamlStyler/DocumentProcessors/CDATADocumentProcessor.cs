@@ -40,7 +40,7 @@ namespace Xavalon.XamlStyler.DocumentProcessors
             // http://www.w3.org/TR/2008/REC-xml-20081126/#sec-line-ends
             // Change them back into the environment newline characters.
             output.Append("<![CDATA[")
-                .Append(xmlReader.Value.Replace("\n", Environment.NewLine))
+                .Append(xmlReader.Value.Replace("\n", elementProcessContext.NewLine))
                 .Append("]]>");
         }
     }

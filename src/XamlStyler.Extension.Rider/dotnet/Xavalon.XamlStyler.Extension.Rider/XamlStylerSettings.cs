@@ -134,6 +134,9 @@ namespace Xavalon.XamlStyler.Extension.Rider
         [SettingsEntry(DefaultValue: 2, Description: "Determines the number of spaces a XAML comment should be padded with.\nDefault Value: 2")]
         public int CommentSpaces { get; set; }
 
+        [SettingsEntry(DefaultValue: NewLineStyle.System, Description: "Determines the line ending sequence.\nDefault Value: Use system default")]
+        public NewLineStyle NewLineStyle { get; set; }
+
         #endregion Misc
 
         #region Configuration
