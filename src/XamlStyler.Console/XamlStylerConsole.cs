@@ -166,6 +166,11 @@ namespace Xavalon.XamlStyler.Console
             {
                 stylerOptions.CommentSpaces = options.CommentSpaces.Value;
             }
+
+            if (options.NewLineStyle != null)
+            {
+                stylerOptions.NewLineStyle = options.NewLineStyle.Value;
+            }
         }
 
         public void Process(ProcessType processType)
