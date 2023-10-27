@@ -26,7 +26,7 @@ namespace Xavalon.XamlStyler.DocumentProcessors
 
             if (!output.IsNewLine())
             {
-                output.Append(Environment.NewLine);
+                output.Append(elementProcessContext.NewLine);
             }
 
             output.Append($"{currentIndentString}<?{xmlReader.Name} {xmlReader.Value}?>");

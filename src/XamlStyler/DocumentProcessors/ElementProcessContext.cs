@@ -1,5 +1,6 @@
 // (c) Xavalon. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using Xavalon.XamlStyler.Parser;
 
@@ -34,5 +35,7 @@ namespace Xavalon.XamlStyler.DocumentProcessors
             ElementProcessStatus parentElementProcessStatus = this.elementProcessStatusStack.Peek();
             parentElementProcessStatus.ContentType |= contentType;
         }
+
+        public string NewLine { get; set; } = Environment.NewLine;
     }
 }

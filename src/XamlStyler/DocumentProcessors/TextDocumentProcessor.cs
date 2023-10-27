@@ -27,7 +27,7 @@ namespace Xavalon.XamlStyler.DocumentProcessors
             var xmlEncodedContent = xmlReader.Value.ToXmlEncodedString(ignoreCarrier: true);
             if (elementProcessContext.Current.IsPreservingSpace)
             {
-                output.Append(xmlEncodedContent.Replace("\n", Environment.NewLine));
+                output.Append(xmlEncodedContent.Replace("\n", elementProcessContext.NewLine));
             }
             else
             {
@@ -42,7 +42,7 @@ namespace Xavalon.XamlStyler.DocumentProcessors
                     var trimmedLine = line.Trim();
                     if (trimmedLine.Length > 0)
                     {
-                        output.Append(Environment.NewLine).Append(currentIndentString).Append(trimmedLine);
+                        output.Append(elementProcessContext.NewLine).Append(currentIndentString).Append(trimmedLine);
                     }
                 }
             }
