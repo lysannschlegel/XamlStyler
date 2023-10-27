@@ -142,8 +142,8 @@ prepareSandbox {
     def dllFiles = [
             "$outputFolder/${DotnetPluginId}.dll",
             "$outputFolder/${DotnetPluginId}.pdb",
-            "$outputFolder/XamlStyler.dll",
-            "$outputFolder/XamlStyler.pdb",
+            "$outputFolder/XamlStyler.Pdx.dll",
+            "$outputFolder/XamlStyler.Pdx.pdb",
             "$outputFolder/Irony.dll"
     ]
 

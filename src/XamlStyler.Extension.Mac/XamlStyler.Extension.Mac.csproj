@@ -8,7 +8,7 @@
     <ProjectTypeGuids>{86F6BF2A-E449-4B3E-813B-9ACC37E5545F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>Xavalon.XamlStyler.Extension.Mac</RootNamespace>
-    <AssemblyName>XamlStyler.Mac</AssemblyName>
+    <AssemblyName>XamlStyler.Mac.Pdx</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
