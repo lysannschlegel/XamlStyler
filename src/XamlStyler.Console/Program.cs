@@ -41,26 +41,22 @@ namespace Xavalon.XamlStyler.Console
             logger.Log($"File Parameter: '{options.File}'", LogLevel.Debug);
             logger.Log($"File Count: {options.File?.Count ?? -1}", LogLevel.Debug);
             logger.Log($"File Directory: '{options.Directory}'", LogLevel.Debug);
+            logger.Log($"Stdin?: '{options.ReadFromStdin}'", LogLevel.Debug);
 
             bool result = true;
 
             int numFilesSpecified = options.File?.Count ?? 0;
             bool isFileOptionSpecified = numFilesSpecified != 0;
             bool isDirectoryOptionSpecified = !String.IsNullOrEmpty(options.Directory);
-            if (isFileOptionSpecified && isDirectoryOptionSpecified)
+            if (!(isFileOptionSpecified ^ isDirectoryOptionSpecified ^ options.ReadFromStdin))
             {
-                System.Console.Error.WriteLine($"\nError: Cannot specify both file(s) and directory\n");
-                result = false;
-            }
-            else if (!isFileOptionSpecified && !isDirectoryOptionSpecified)
-            {
-                System.Console.Error.WriteLine($"\nError: Must specify file(s) or directory\n");
+                System.Console.Error.WriteLine($"\nError: Must specify exactly one --file, --directory, or --read-from-stdin\n");
                 result = false;
             }
 
-            if (options.WriteToStdout && (isDirectoryOptionSpecified || numFilesSpecified != 1))
+            if (options.WriteToStdout && (isDirectoryOptionSpecified || (numFilesSpecified != 1 && !options.ReadFromStdin)))
             {
-                System.Console.Error.WriteLine($"\nError: When using --write-to-stdout you must specify exactly one file\n");
+                System.Console.Error.WriteLine($"\nError: When using --write-to-stdout you must specify exactly one file or --read-from-stdin\n");
                 result = false;
             }
 
@@ -70,7 +66,13 @@ namespace Xavalon.XamlStyler.Console
                 result = false;
             }
 
-            processType = isFileOptionSpecified ? ProcessType.File : ProcessType.Directory;
+            if (options.ReadFromStdin && !options.WriteToStdout)
+            {
+                System.Console.Error.WriteLine($"\nError: --read-from-stdin requires --write-to-stdout\n");
+                result = false;
+            }
+
+            processType = isFileOptionSpecified ? ProcessType.File : (isDirectoryOptionSpecified ? ProcessType.Directory : ProcessType.Stdin);
             return result;
         }
     }
