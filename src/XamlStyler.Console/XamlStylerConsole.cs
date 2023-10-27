@@ -187,6 +187,9 @@ namespace Xavalon.XamlStyler.Console
                         : new List<string>();
                     files = CreateXamlFiles(fileNames);
                     break;
+                case ProcessType.Stdin:
+                    files = new List<XamlFile>() { new XamlFileFromStdin() };
+                    break;
                 default:
                     throw new ArgumentException("Invalid ProcessType");
             }

@@ -9,6 +9,7 @@ using Xavalon.XamlStyler.Options;
 namespace Xavalon.XamlStyler.Console
 {
     /// Represents a XAML file to process.
+    /// This can either be an actual file (XamlFileByName), or the stdin stream (XamlFileFromStdin).
     public abstract class XamlFile
     {
         public abstract string FileName { get; }
@@ -150,6 +151,34 @@ namespace Xavalon.XamlStyler.Console
         protected override StreamWriter CreateWriter(Encoding encoding)
         {
             return new StreamWriter(this.FullPath, false, encoding);
+        }
+    }
+
+    public sealed class XamlFileFromStdin : XamlFile
+    {
+        public override string FileName { get; } = "<stdin>";
+
+        public override string FullPath { get; } = "<stdin>";
+
+        protected override bool CheckCanBeProcessed(Logger logger)
+        {
+            return true;
+        }
+
+        protected override StylerService GetStylerService(CommandLineOptions options, Logger logger, StylerService defaultStyler)
+        {
+            return defaultStyler;
+        }
+
+        protected override StreamReader CreateReader()
+        {
+            var stream = System.Console.OpenStandardInput();
+            return new StreamReader(stream);
+        }
+
+        protected override StreamWriter CreateWriter(Encoding encoding)
+        {
+            throw new InvalidOperationException("Cannot write to file when reading from stdin");
         }
     }
 }

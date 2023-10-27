@@ -16,6 +16,9 @@ namespace Xavalon.XamlStyler.Console
         [Option('d', "directory", HelpText = "Directory to process XAML files in.")]
         public string Directory { get; set; }
 
+        [Option("read-from-stdin", Default = false, HelpText = "Read a single XAML from stdin. Mutually exclusive with specifying files or directories.")]
+        public bool ReadFromStdin { get; set; }
+
         [Option('c', "config", HelpText = "JSON file containing XAML Styler settings configuration.")]
         public string Configuration { get; set; }
 
@@ -29,7 +32,7 @@ namespace Xavalon.XamlStyler.Console
         public bool IsPassive { get; set; }
 
         [Option("write-to-stdout", Default = false,
-            HelpText = "Instead of modifying the file, write to stdout. In this mode, logs are printed to stderr. Must specify exactly one file. Cannot be compbined with --passive.")]
+            HelpText = "Instead of modifying the file, write to stdout. In this mode, logs are printed to stderr. Must specify exactly one file or use --read-from-stdin. Cannot be compbined with --passive.")]
         public bool WriteToStdout { get; set; }
 
         [Option('l', "loglevel", Default = LogLevel.Default,
